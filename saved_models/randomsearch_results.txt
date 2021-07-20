@@ -1,0 +1,30 @@
+Experiment name: bert+treelstm_3_xavier_0.5_16_1e-06_1e-08
+Validation accuracy: 72%
+Epoch: 9
+Experiment name: bert+treelstm_3_xavier_0.2_32_0.0001_1e-05
+Validation accuracy: 82%
+Epoch: 6
+Experiment name: bert+treelstm_3_xavier_0.5_64_1e-06_1e-07
+Validation accuracy: 71%
+Epoch: 9
+Experiment name: bert+treelstm_3_normal_0.2_64_1e-06_1e-08
+Validation accuracy: 69%
+Epoch: 9
+Experiment name: bert+treelstm_10_normal_0.9_32_1e-07_9.999999999999999e-11
+Validation accuracy: 69%
+Epoch: 9
+Experiment name: bert+treelstm_10_xavier_0.5_32_0.001_1e-06
+Validation accuracy: 70%
+Epoch: 3
+Experiment name: bert+treelstm_7_xavier_0.5_64_0.001_1e-06
+Validation accuracy: 70%
+Epoch: 9
+Experiment name: bert+treelstm_3_normal_0.5_16_0.0001_1e-05
+Validation accuracy: 82%
+Epoch: 4
+Experiment name: bert+treelstm_7_normal_0.5_16_0.0001_1e-05
+Validation accuracy: 84%
+Epoch: 7
+Experiment name: bert+treelstm_10_xavier_0.5_32_1e-07_9.999999999999999e-11
+Validation accuracy: 30%
+Epoch: 9
