@@ -274,7 +274,7 @@ if __name__ == "__main__":
                         help="Experiment name")
     parser.add_argument("--random-seed",
                         type=int,
-                        default=3,
+                        default=7,
                         help="Random seed for train random search")
     parser.add_argument("--mode",
                         type=str,
@@ -283,7 +283,7 @@ if __name__ == "__main__":
                         help="Model type")
     parser.add_argument("--permutations",
                         type=int,
-                        default=8,
+                        default=4,
                         help="Number of permutations for random search")
     parser.add_argument("--epochs",
                         type=int,

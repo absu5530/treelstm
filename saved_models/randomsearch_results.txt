@@ -46,3 +46,9 @@ Epoch: 9
 Experiment name: bert_10_xavier_0.5_32_0.001_1e-06
 Validation accuracy: 73%
 Epoch: 4
+Experiment name: bert_7_xavier_0.5_64_0.001_1e-06
+Validation accuracy: 69%
+Epoch: 9
+Experiment name: bert_3_normal_0.5_16_0.0001_1e-05
+Validation accuracy: 83%
+Epoch: 4
