@@ -52,3 +52,6 @@ Epoch: 9
 Experiment name: bert_3_normal_0.5_16_0.0001_1e-05
 Validation accuracy: 83%
 Epoch: 4
+Experiment name: bert_7_normal_0.5_16_0.0001_1e-05
+Validation accuracy: 84%
+Epoch: 5
