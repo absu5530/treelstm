@@ -236,7 +236,7 @@ class TrainModel(object):
             acc_seq_train.append(train_acc)
             acc_seq_val.append(validation_acc)
 
-            if validation_acc >= best_acc:
+            if validation_acc > best_acc:
                 best_acc = validation_acc
                 best_epoch = epoch_id
                 logging.info('New optimum found for validation acc: {}.'.format(best_acc))
@@ -274,7 +274,7 @@ if __name__ == "__main__":
                         help="Experiment name")
     parser.add_argument("--random-seed",
                         type=int,
-                        default=7,
+                        default=1,
                         help="Random seed for train random search")
     parser.add_argument("--mode",
                         type=str,
@@ -283,7 +283,7 @@ if __name__ == "__main__":
                         help="Model type")
     parser.add_argument("--permutations",
                         type=int,
-                        default=4,
+                        default=10,
                         help="Number of permutations for random search")
     parser.add_argument("--epochs",
                         type=int,
@@ -295,7 +295,7 @@ if __name__ == "__main__":
                         help="Number of epochs after which to apply early stopping if no improvement")
     parser.add_argument("--model-type",
                         type=str,
-                        default='bert',
+                        default='treelstm',
                         choices=['bert+treelstm', 'bert', 'treelstm'],
                         help="Model type")
     parser.add_argument("--no-layers-to-freeze",
