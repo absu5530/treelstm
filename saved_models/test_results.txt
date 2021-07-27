@@ -1,0 +1,14 @@
+Experiment bert+treelstm_3_normal_0.2_64_1e-06_1e-08_30_epochs
+Accuracy: 78%
+F1: 0.86
+Loss: 0.5
+Confusion Matrix: 
+[[ 57  72]
+ [ 16 263]]
+Experiment bert_3_xavier_0.5_16_1e-06_1e-08_30_epochs
+Accuracy: 77%
+F1: 0.85
+Loss: 0.62
+Confusion Matrix: 
+[[ 48  81]
+ [ 11 268]]

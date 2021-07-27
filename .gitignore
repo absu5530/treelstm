@@ -5,4 +5,5 @@
 /saved_models/*
 !/saved_models/*.csv
 !/saved_models/randomsearch_results.txt
+!/saved_models/test_results.txt
 !/saved_models/*.ipynb

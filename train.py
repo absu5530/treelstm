@@ -278,7 +278,7 @@ if __name__ == "__main__":
                         help="Random seed for train random search")
     parser.add_argument("--mode",
                         type=str,
-                        default='train-randomsearch',
+                        default='train',
                         choices=['train-randomsearch', 'train', 'predict'],
                         help="Model type")
     parser.add_argument("--permutations",
@@ -287,11 +287,11 @@ if __name__ == "__main__":
                         help="Number of permutations for random search")
     parser.add_argument("--epochs",
                         type=int,
-                        default=10,
+                        default=30,
                         help="Number of epochs")
     parser.add_argument("--early-stopping",
                         type=int,
-                        default=3,
+                        default=5,
                         help="Number of epochs after which to apply early stopping if no improvement")
     parser.add_argument("--model-type",
                         type=str,
@@ -300,8 +300,8 @@ if __name__ == "__main__":
                         help="Model type")
     parser.add_argument("--no-layers-to-freeze",
                         type=int,
-                        default=8,
-                        choices=[2, 4, 6, 8, 10, 12],
+                        default=7,
+                        choices=[3, 7, 10],
                         help="Number of BERT layers to freeze")
     parser.add_argument("--initializer",
                         type=str,
@@ -319,7 +319,7 @@ if __name__ == "__main__":
                         help="Batch size")
     parser.add_argument("--learning-rate",
                         type=float,
-                        default=0.000005,
+                        default=0.000001,
                         help="Learning rate")
     parser.add_argument("--weight-decay",
                         type=float,
@@ -328,7 +328,7 @@ if __name__ == "__main__":
     parser.add_argument("--dropout",
                         type=float,
                         default=0.5,
-                        choices=[0.1, 0.3, 0.5, 0.7, 0.9],
+                        choices=[0.2, 0.5, 0.9],
                         help="Dropout rate")
     # parser.add_argument("--data-path",
     #                     type=str,
