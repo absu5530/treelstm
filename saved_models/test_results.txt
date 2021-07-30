@@ -19,3 +19,31 @@ Loss: 0.54
 Confusion Matrix: 
 [[ 46  83]
  [ 11 268]]
+Experiment bert+treelstm_3_xavier_0.5_16_1e-06_1e-08_30_epochs
+Accuracy: 76%
+F1: 0.84
+Loss: 0.85
+Confusion Matrix: 
+[[ 43  86]
+ [ 13 266]]
+Experiment treelstm_3_normal_0.2_64_1e-06_1e-08_30_epochs
+Accuracy: 68%
+F1: 0.81
+Loss: 0.69
+Confusion Matrix: 
+[[  0 129]
+ [  0 279]]
+Experiment treelstm_7_normal_0.5_16_0.0001_1e-05_30_epochs
+Accuracy: 64%
+F1: 0.73
+Loss: 0.67
+Confusion Matrix: 
+[[ 62  67]
+ [ 81 198]]
+Experiment treelstm_3_xavier_0.5_16_1e-06_1e-08_30_epochs
+Accuracy: 69%
+F1: 0.81
+Loss: 0.67
+Confusion Matrix: 
+[[ 16 113]
+ [ 12 267]]
