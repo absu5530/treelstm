@@ -1,6 +1,7 @@
 /datasets
 /venv
-/data
+/data/*
+!/data/*.png
 
 /saved_models/*
 !/saved_models/*.csv
