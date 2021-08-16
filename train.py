@@ -72,8 +72,6 @@ class TrainModel(object):
         f1_metric = mx.metric.F1()
         loss_function = mx.gluon.loss.SoftmaxCELoss()
         samples = len(data_iter)
-        #     data_iter.set_context(ctx[0])
-        #     labels = [mx.nd.array(data_iter.labels, ctx=ctx[0]).reshape((-1,1))]
         l_trees, l_sents, r_trees, r_sents, token_id, segment_id, valid_len, label = data_iter.next(samples)
 
         token_id = mx.nd.array(token_id).reshape(-1, 128).as_in_context(self.ctx)
@@ -84,7 +82,6 @@ class TrainModel(object):
         out = self.model(mx.nd, token_id, segment_id, valid_len, l_sents, l_trees, r_sents, r_trees)
         loss = float(loss_function(out, label).mean().asnumpy())
 
-        #     preds = to_score(mx.nd.concat(*preds, dim=0))
         metric.update(mx.nd.concat(*label, dim=0),
                       mx.nd.concat(*out, dim=0).reshape(-1, 2))
 
@@ -330,10 +327,6 @@ if __name__ == "__main__":
                         default=0.5,
                         choices=[0.2, 0.5, 0.9],
                         help="Dropout rate")
-    # parser.add_argument("--data-path",
-    #                     type=str,
-    #                     default='./datasets/mrpc/dev.tsv',
-    #                     help="Data path for prediction")
     args = parser.parse_args()
 
     train_obj = TrainModel(args)
@@ -352,25 +345,3 @@ if __name__ == "__main__":
         train_obj.train_model()
     else:
         raise config.BertTreeLSTMException(f'Invalid mode given.')
-    # if not args.predict:
-    # else:
-    #     print('predict')
-    #     predict_data = dataloader.get_data_from_scratch(dataset=train_obj.args.data_path)
-    #     _, _, _, out, _ = train_obj.test(predict_data)
-    #     output_results = f'Accuracy: {int(acc * 100)}%\n' \
-    #                      f'F1: {round(f1, 2)}\n' \
-    #                      f'Loss: {round(loss, 2)}\n'
-    #     print(output_results)
-
-    # else:
-    #     for i in range(0, args.n_runs):
-    #         #             prefix = "set_" + str(args.set_no) + "_run_" + str(
-    #         #                 i) + "_nf_" + str(args.n_filters) + "_fs1_" + str(
-    #         #                 args.filter_size_1) + "_fs2_" + str(
-    #         #                 args.filter_size_2) + "_fs3_" + str(
-    #         #                 args.filter_size_3) + "_dp_" + str(
-    #         #                 args.dropout_rate) + '_2fc_str_' + str(
-    #         #                 args.strides) + '_ksize_' + str(args.ksize) + '_lp_' + str(
-    #         #                 args.learning_power) + '_pos'
-    #         prefix = "experiment_{}_{}_{}".format(args.experiment, args.set_no, args.variable)
-    #         train_obj.test(args, prefix)
