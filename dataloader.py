@@ -10,8 +10,11 @@ import numpy as np
 import pandas as pd
 
 
-# Iterator class for MRPC BERTTreeLSTM dataset
 class BertTreeLSTMIter(object):
+    """
+    Iterator class for MRPC BERTTreeLSTM dataset. Adapted from:
+    https://gluon.mxnet.io/chapter09_natural-language-processing/tree-lstm.html
+    """
     def __init__(self, num_classes, shuffle=False):
         super(BertTreeLSTMIter, self).__init__()
         self.l_sentences = []
@@ -91,12 +94,12 @@ class BertTreeLSTMIter(object):
         return l_tree, l_sent, r_tree, r_sent, token_id, segment_id, valid_len, label
 
 
-# We use the @ character to register the following Class definition
-# with spaCy under the name 'tensorattr'.
 @Language.factory('tensorattr')
-# We begin by declaring the class name: Tensor2Attr. The name is
-# declared using 'class', followed by the name and a colon.
 class TensorAttr:
+    """
+    # Custom class to expose BERT tensors in spaCy pipeline. Adapted from:
+    https://applied-language-technology.readthedocs.io/en/latest/notebooks/part_iii/04_embeddings_continued.html
+    """
     # We continue by defining the first method of the class,
     # __init__(), which is called when this class is used for
     # creating a Python object. Custom components in spaCy
@@ -211,6 +214,9 @@ class TensorAttr:
 
 
 def get_raw_data(dataset='train'):
+    """
+    Get raw MRPC data from where it is saved.
+    """
     if dataset == 'train':
         data_raw = gluonnlp.data.GlueMRPC('train', root='./datasets/mrpc')
     elif dataset == 'test':
@@ -221,6 +227,10 @@ def get_raw_data(dataset='train'):
 
 
 def bert_transform_data(data_raw):
+    """
+    Get BERT model and transform raw data to BERT classifier format. Adapted from GluonNLP documentation:
+    https://nlp.gluon.ai/examples/sentence_embedding/bert.html
+    """
     bert_base, vocabulary = gluonnlp.model.get_model('bert_12_768_12',
                                                      dataset_name='book_corpus_wiki_en_uncased',
                                                      pretrained=True, use_pooler=True,
@@ -268,6 +278,10 @@ def bert_transform_data(data_raw):
 
 
 def get_spacy_trees(data_raw):
+    """
+    Get spaCy documents and dependency trees for every sentence. `_left` indicates the data object for the
+    left sentence and `_right` for the right sentence in the sentence pair.
+    """
     nlp = spacy.load("en_core_web_trf")
 
     nlp.add_pipe('tensorattr')
@@ -293,6 +307,11 @@ def get_spacy_trees(data_raw):
 
 
 def get_data_from_scratch(dataset='train'):
+    """
+    Get raw data and process it for the model. This involves getting token_ids, segment_ids and lengths for the BERT
+    classifier and spaCy doc objects (sentences) and dependency trees for the left sentence and the right sentence
+    in each sentence pair.
+    """
     data_raw = get_raw_data(dataset=dataset)
     data_transformed = bert_transform_data(data_raw)
 
@@ -324,6 +343,11 @@ def get_data_from_scratch(dataset='train'):
 
 
 def get_data_from_pickle(dataset='train'):
+    """
+    Retrieve processed data for modeling, including token_ids, segment_ids and lengths for the BERT
+    classifier and spaCy doc objects (sentences) and dependency trees for the left sentence and the right sentence
+    in each sentence pair.
+    """
     try:
         with open(f'./data/data_transformed_{dataset}.pickle', 'rb') as handle:
             data_transformed = pickle.load(handle)

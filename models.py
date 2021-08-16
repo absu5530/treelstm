@@ -8,7 +8,12 @@ from transformers import BertModel
 import gluonnlp
 import numpy as np
 
+
 class ChildSumLSTMCell(Block):
+    """
+    Child Sum LSTM Cell. Adapted from:
+    https://gluon.mxnet.io/chapter09_natural-language-processing/tree-lstm.html
+    """
     def __init__(self, hidden_size,
                  i2h_weight_initializer=None,
                  hs2h_weight_initializer=None,
@@ -117,6 +122,9 @@ class ChildSumLSTMCell(Block):
 
 
 class BertAndSimilarityTreeLSTM(nn.Block):
+    """
+    Combined BERT classifier and Similarity Tree LSTM network
+    """
     def __init__(self, dropout_rate=0.5):
         super(BertAndSimilarityTreeLSTM, self).__init__()
         with self.name_scope():
@@ -133,6 +141,7 @@ class BertAndSimilarityTreeLSTM(nn.Block):
             self.dense_layer_4 = nn.Dense(2)
 
     def forward(self, F, token_ids, segment_ids, valid_length, l_sentences, l_trees, r_sentences, r_trees):
+        # Using all inputs
         _, bert_output = self.bert(token_ids, segment_ids, valid_length)
 
         bert_dropout_output = self.dropout_layer(bert_output)
@@ -165,6 +174,9 @@ class BertAndSimilarityTreeLSTM(nn.Block):
 
 
 class BertClassifier(nn.Block):
+    """
+    BERT classifier, with a dropout layer and dense layer following a BERT language model.
+    """
     def __init__(self, dropout_rate=0.5):
         super(BertClassifier, self).__init__()
         with self.name_scope():
@@ -179,6 +191,7 @@ class BertClassifier(nn.Block):
             self.dense_layer_4 = nn.Dense(2)
 
     def forward(self, F, token_ids, segment_ids, valid_length, l_sentences, l_trees, r_sentences, r_trees):
+        # Only using bert_classifer inputs: token_ids, segment_ids, valid_length
         _, bert_output = self.bert(token_ids, segment_ids, valid_length)
 
         bert_dropout_output = self.dropout_layer(bert_output)
@@ -189,6 +202,9 @@ class BertClassifier(nn.Block):
 
 
 class SimilarityTreeLSTM(nn.Block):
+    """
+    Similarity Tree LSTM network
+    """
     def __init__(self, dropout_rate=0.5):
         super(SimilarityTreeLSTM, self).__init__()
         with self.name_scope():
@@ -201,6 +217,7 @@ class SimilarityTreeLSTM(nn.Block):
             self.dense_layer_4 = nn.Dense(2)
 
     def forward(self, F, token_ids, segment_ids, valid_length, l_sentences, l_trees, r_sentences, r_trees):
+        # Only using similarity tree LSTM inputs: l_sentences, l_trees, r_sentences and r_trees
         l_output = self.childsumtreelstm(F, l_sentences, l_trees)
 
         l_dropout_output = self.dropout_layer(l_output)
