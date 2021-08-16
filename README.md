@@ -43,6 +43,8 @@ advantage of an LSTM network.
 
 ## What is the model architecture?
 
+![](data/treelstm.png)
+
 ## Analysis of Results
 
 ## Future Work
