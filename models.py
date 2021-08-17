@@ -135,9 +135,9 @@ class BertAndSimilarityTreeLSTM(nn.Block):
             self.childsumtreelstm = ChildSumLSTMCell(256, input_size=768)
             #             self.similarity = Similarity(sim_hidden_size, rnn_hidden_size, num_classes)
             self.dropout_layer = nn.Dropout(rate=dropout_rate)
-            self.dense_layer_1 = nn.Dense(128)
-            self.dense_layer_2 = nn.Dense(64)
-            self.dense_layer_3 = nn.Dense(16)
+            self.dense_layer_1 = nn.Dense(128, activation='relu')
+            self.dense_layer_2 = nn.Dense(64, activation='relu')
+            self.dense_layer_3 = nn.Dense(16, activation='relu')
             self.dense_layer_4 = nn.Dense(2)
 
     def forward(self, F, token_ids, segment_ids, valid_length, l_sentences, l_trees, r_sentences, r_trees):
