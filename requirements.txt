@@ -1,8 +1,0 @@
-mxnet~=1.8.0.post0
-numpy~=1.19.4
-spacy~=3.0.6
-scikit-learn~=0.24.1
-transformers~=4.6.1
-tqdm~=4.61.0
-gluonnlp~=0.10.0
-pandas~=1.2.4

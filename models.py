@@ -1,10 +1,5 @@
-
-from sklearn.metrics import accuracy_score, confusion_matrix
-
 import mxnet as mx
 from mxnet.gluon import Block, nn
-from mxnet.gluon.parameter import Parameter
-from transformers import BertModel
 import gluonnlp
 import numpy as np
 

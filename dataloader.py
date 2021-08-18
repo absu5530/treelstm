@@ -7,7 +7,6 @@ import config
 import spacy
 from spacy.language import Language
 import numpy as np
-import pandas as pd
 
 
 class BertTreeLSTMIter(object):
