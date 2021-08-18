@@ -5,9 +5,8 @@ in [Improved Semantic Representations From Tree-Structured Long Short-Term Memor
 Tai et al., 2015) to develop LSTM network models with dependency trees as inputs, or Dependency Tree-LSTMs. The salient
 features of this work are an architecture for using spaCy dependency trees with BERT transformer embeddings as the input
 to a tree LSTM, rather than
-the [Stanford Neural Network Dependency Parser](https://www-nlp.stanford.edu/software/nndep.html) (Chen and Manning,
-
-2014) with GloVe embeddings as in the original paper.
+the [Stanford Neural Network Dependency Parser](https://www-nlp.stanford.edu/software/nndep.html) 
+(Chen and Manning, 2014) with GloVe embeddings as in the original paper.
 
 This implementation is hyperparameter-tuned, trained and tested on the
 [General Language Understanding Evaluation (GLUE) benchmark](https://gluebenchmark.com/) Microsoft Research Paraphrase
