@@ -40,7 +40,7 @@ advantage of an LSTM network.
 The foundation of the Dependency-Tree LSTM is the Child-Sum Tree-LSTM cell unit. The difference between the Tree-LSTM 
 cell unit and a regular standard LSTM unit is that in a Tree-LSTM unit, the gating vectors `i` and `f` and the memory 
 cell `c` are dependent on the hidden and cell states of multiple child units. There are multiple forget gates `f`, one 
-for each child unit. The hidden states from multiple child units are summed and transformed to get upper cell and hidden 
+for each child unit. The hidden states from multiple child units are summed and transformed to get parent cell and hidden 
 states in a Child-Sum Tree-LSTM. This allows the Tree-LSTM unit to selectively exclude information from each child unit. 
 In this way, it could learn to prioritize certain dependency children more than others, e.g. adverbial clauses vs. 
 determiners in trying to determine semantic relatedness.
