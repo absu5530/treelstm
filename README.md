@@ -1,11 +1,11 @@
 # Engineering a Child-Sum Tree-LSTM with spaCy BERT Dependency Trees
 
 This is a modified implementation of the methods proposed
-in [Improved Semantic Representations From Tree-Structured Long Short-Term Memory Networks](https://aclanthology.org/P15-1150.pdf) (
-Tai et al., 2015) to develop LSTM network models with dependency trees as inputs, or Dependency Tree-LSTMs. The salient
+in [Improved Semantic Representations From Tree-Structured Long Short-Term Memory Networks](https://aclanthology.org/P15-1150.pdf) 
+(Tai et al., 2015) to develop LSTM network models with dependency trees as inputs, or Dependency Tree-LSTMs. The salient
 features of this work are an architecture for using spaCy dependency trees with BERT transformer embeddings as the input
 to a tree LSTM, rather than
-the [Stanford Neural Network Dependency Parser](https://www-nlp.stanford.edu/software/nndep.html) 
+the [Stanford Neural Network Dependency Parser](https://www-nlp.stanford.edu/software/nndep.html)
 (Chen and Manning, 2014) with GloVe embeddings as in the original paper.
 
 This implementation is hyperparameter-tuned, trained and tested on the
@@ -62,15 +62,15 @@ activation is applied on the final dense layers of two dimensions and cross-entr
 ## Training
 
 1) Build Docker image with `docker build -t treelstm_image.` and run it using
-`docker run -it -v $PWD:/data treelstm_image`.
-   
-2) Run `python3 dataloader.py` to download the MRPC data and transform it into the required input format. This only 
-needs to be done once, after which pickled files containing the data will be available under `data`.
+   `docker run -it -v $PWD:/data treelstm_image`.
+
+2) Run `python3 dataloader.py` to download the MRPC data and transform it into the required input format. This only
+   needs to be done once, after which pickled files containing the data will be available under `data`.
 
 3) Run `train.py` for random hyperparameter search, training or testing.
 
-This package has three modes: `train-randomsearch`, `train` and `predict` and three model types: `bert`,
-`bert+treelstm` and `treelstm`.
+This package has three modes: `train-randomsearch`, `train` and `predict` and three model types: `bert`
+(`BertClassifier`), `bert+treelstm` (`BertAndSimilarityTreeLSTM`) and `treelstm` (`SimilarityTreeLSTM`).
 
 Running in `train-randomsearch` performs a random hyperparameter search on the following parameters:
 
@@ -87,10 +87,10 @@ The number of permutations to be performed with these parameters can be specifie
 ### Random Search mode
 
 To run in `train-randomsearch` mode for the `bert+treelstm` model type with 10 random permutations of the
-hyperparameters with 10 epochs each, specify the parameters like so:
+hyperparameters with 10 epochs each and early stopping after 3 epochs, specify the parameters like so:
 
 ```
-python3 train.py --model-type bert+treelstm --mode train-randomsearch --epochs 10 --permutations 10
+python3 train.py --model-type bert+treelstm --mode train-randomsearch --epochs 10 --permutations 10 --early-stopping 3
 ```
 
 No experiment name is required in `train-randomsearch` mode; it will be automatically constructed with the model type
@@ -122,15 +122,89 @@ python3 train.py --experiment-name bert+treelstm_train --mode predict
 
 The test accuracy, F1 score, loss and confusion matrix will get saved in `test_results.txt`.
 
-## Analysis of Results
+## Results
+
+After modeling in `train-randomsearch` mode, we obtain the highest validation accuracies over 10 epochs in the
+`randomsearch_results.txt` file. Based on the accuracies here, where they stopped due to early stopping after 3 epochs
+and the general progression of their validation losses and accuracies over the epochs, we take the highest-performing
+parameter configurations that have the potential to train further:
+
+The following models are selected, one for each model type:
+
+* `bert+treelstm_3_xavier_0.5_64_1e-06_1e-07`
+* `bert_3_xavier_0.5_16_1e-06_1e-08`
+* `treelstm_3_xavier_0.5_16_1e-06_1e-08`
+
+They are then trained in `train` mode over 30 epochs.
+
+The Loss and Accuracy graphs and values for each model are depicted below:
+
+### bert+treelstm_3_xavier_0.5_64_1e-06_1e-07
+
+|Loss Graph| Acc Graph| 
+|---|---|
+|![](data/loss_bert+treelstm_3_xavier_0.5_64_1e-06_1e-07_30_epochs.png)|![](data/acc_bert+treelstm_3_xavier_0.5_64_1e-06_1e-07_30_epochs.png)|
+
+Loss Value|Acc Value|F1 Score|Confusion matrix|
+|---|---|---|---|
+|0.54|77%|0.85|[[ 46  83] <br> [ 11 268]]|
+
+### bert_3_xavier_0.5_16_1e-06_1e-08
+
+|Loss| Acc|
+|---|---|
+|![](data/loss_bert_3_xavier_0.5_16_1e-06_1e-08_30_epochs.png)|![](data/acc_bert_3_xavier_0.5_16_1e-06_1e-08_30_epochs.png)|
+
+Loss Value|Acc Value|F1 Score|Confusion matrix|
+|---|---|---|---|
+|0.62|77%|0.85|[[ 48  81]<br>[ 11 268]]|
+
+### treelstm_3_xavier_0.5_16_1e-06_1e-08
+
+|Loss| Acc|
+|---|---|
+|![](data/loss_treelstm_3_xavier_0.5_16_1e-06_1e-08_30_epochs.png)|![](data/acc_treelstm_3_xavier_0.5_16_1e-06_1e-08_30_epochs.png)|
+
+Loss Value|Acc Value|F1 Score|Confusion matrix|
+|---|---|---|---|
+|0.67|69%|0.81|[[ 16 113] <br> [ 12 267]]|
+
+While the `BertClassifier` and `BertAndSimilarityTreeLSTM` have similar accuracies and F1 scores, the `BertClassifier`
+has a higher value of loss that increased after an inflection point on the loss graph, indicating overfitting beyond the
+10th epoch. The `BertAndSimilarityTreeLSTM` seems to have converged well, although it did not perform any better than
+the `BertClassifier` based on these results. They did not perform too shabbily based on 
+[official results](https://github.com/google-research/bert) though.
+
+The `SimilarityTreeLSTM` performed poorly vs. the `BertClassifier` and `BertAndSimilarityTreeLSTM`. It was not able to
+converge, although judging by the test results its precisions are not completely off.
+
+It appears that we could do more hyperparameter tuning to find more optimal sets of parameters for all the model types, 
+and particularly for the `SimilarityTreeLSTM`.
 
 ## Future Work
 
-* Replace ReLU with [Leaky ReLU](https://ayearofai.com/rohan-4-the-vanishing-gradient-problem-ec68f76ffb9b) to address
-  the dying ReLU problem which might be happening with some parameter settings in the random search
+Some ideas to get the models to train better:
+
+* Try many more random searches to find an optimal hyperparameter configuration for the `SimilarityTreeLSTM` and the 
+  other networks
+* In the original paper, similar tasks are approached as follows: a Tree-LSTM model is used to produce a sentence 
+  representation for each sentence in every pair, and then a similarity score is predicted for the pair using a neural 
+  network that considers both the distance and angle between the pair. This could be implemented here
+* Look into how the input can be modified to help with overfitting. Perhaps using Principal Component Analysis for 
+  dimensionality reduction? This would be counterintuitive though as we should try to preserve the richness of BERT 
+  embeddings
 * Replace softmax activation on the output dense layer in two dimensions with a sigmoid activation on a dense layer in
   one dimension for faster modeling
-* Try deeper networks, i.e. with more dense layers
+
+Some stretch ideas:
+
+* Perhaps outputs from different layers of the BERT model as explored in 
+  [What's so special about BERT's layers?](https://aclanthology.org/2020.findings-emnlp.389.pdf) other than just the 
+  last one can be concatenated and used as they might be more suited to this task
+* Could we incorporate attention into the Tree-LSTM as in this paper 
+  [Improving Tree-LSTM with Tree Attention](https://arxiv.org/pdf/1901.00066.pdf) by Ahmed et al.?
+* Replace ReLU with [Leaky ReLU](https://ayearofai.com/rohan-4-the-vanishing-gradient-problem-ec68f76ffb9b) to address
+  the dying ReLU problem which might be happening with some parameter settings in the random search
 * Make use of N-ary Tree-LSTMs (as mentioned in Tai et al.) and constituency parsing rather than Child-Sum Tree-LSTMs
   and dependency parsing; in N-ary Tree-LSTMs the order of the children is taken into consideration which allows
   constituency trees, where constituent sub-phrases of the same type are on the same side of the parent, to be harnessed
