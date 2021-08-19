@@ -1,19 +1,19 @@
-# Engineering a Child-Sum Tree-LSTM with spaCy BERT Dependency Trees
+# Engineering a Child-Sum Tree-LSTM with spaCy Transformer Dependency Trees
 
 This is a modified implementation of the methods proposed
 in [Improved Semantic Representations From Tree-Structured Long Short-Term Memory Networks](https://aclanthology.org/P15-1150.pdf) 
 (Tai et al., 2015) to develop LSTM network models with dependency trees as inputs, or Dependency Tree-LSTMs. The salient
 features of this work are an architecture for using spaCy dependency trees with BERT transformer embeddings as the input
-to a tree LSTM, rather than
-the [Stanford Neural Network Dependency Parser](https://www-nlp.stanford.edu/software/nndep.html)
-(Chen and Manning, 2014) with GloVe embeddings as in the original paper.
+to a tree LSTM, rather than the 
+[Stanford Neural Network Dependency Parser](https://www-nlp.stanford.edu/software/nndep.html) (Chen and Manning, 2014) 
+with GloVe embeddings as in the original paper.
 
 This implementation is hyperparameter-tuned, trained and tested on the
 [General Language Understanding Evaluation (GLUE) benchmark](https://gluebenchmark.com/) Microsoft Research Paraphrase
 Corpus (MRPC), a sentence paraphrase dataset built from news article that is labeled for whether or not each pair is a
 paraphrase pair.
 
-The primary hypothesis is that BERT embeddings trained and updated in a dependency tree LSTM should give a stronger
+The primary hypothesis is that BERT embeddings trained and updated in a dependency tree-LSTM should give a stronger
 signal in determining whether two sentences are paraphrases of each other as opposed to a plain BERT classifier.
 
 ## What are dependency trees?
