@@ -11,7 +11,7 @@ with GloVe embeddings as in the original paper.
 This implementation is hyperparameter-tuned, trained and tested on the
 [General Language Understanding Evaluation (GLUE) benchmark](https://gluebenchmark.com/) Microsoft Research Paraphrase
 Corpus (MRPC), a sentence paraphrase dataset built from news article that is labeled for whether or not each pair is a
-paraphrase pair.
+paraphrase pair. The implementation is in MXNet.
 
 The primary hypothesis is that BERT embeddings trained and updated in a dependency tree-LSTM should give a stronger
 signal in determining whether two sentences are paraphrases of each other as opposed to a plain BERT classifier.
